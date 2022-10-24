@@ -12,6 +12,8 @@ public class PlayerScript : MonoBehaviour
     public TextMeshProUGUI score;
     public TextMeshProUGUI lives;
     public GameObject winTextObject;
+     public GameObject loseTextObject;
+
 
     private int livesValue = 3;
     private int scoreValue = 0;
@@ -24,6 +26,7 @@ public class PlayerScript : MonoBehaviour
         lives.text = "Lives: " + livesValue.ToString();
         
         winTextObject.SetActive(false);
+        loseTextObject.SetActive(false);
     }
     
 
@@ -37,15 +40,32 @@ public class PlayerScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-       if (collision.collider.tag == "Coin")
+       if(collision.collider.tag == "Coin")
         {
             scoreValue += 1;
+            if(scoreValue == 6)
+            {
+                transform.position = new Vector3(84.0f, 0.0f, 0.0f);
+            }
+            if(scoreValue == 12)
+            {
+                winTextObject.SetActive(true);
+            }
+
             score.text = "Coins: " + scoreValue.ToString();
             Destroy(collision.collider.gameObject);
         }
-        if(scoreValue >= 7) 
+
+        if(collision.collider.tag == "Enemy")
         {
-            winTextObject.SetActive(true);
+            livesValue -= 1;
+            if(livesValue == 0)
+             {
+               loseTextObject.SetActive(true); 
+             }
+
+           lives.text = "Lives: " + livesValue.ToString();
+            Destroy(collision.collider.gameObject);
         }
     }
 
