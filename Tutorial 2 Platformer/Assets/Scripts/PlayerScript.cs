@@ -13,6 +13,10 @@ public class PlayerScript : MonoBehaviour
     public TextMeshProUGUI lives;
     public GameObject winTextObject;
      public GameObject loseTextObject;
+     public AudioClip musicClipOne;
+      public AudioClip musicClipTwo;
+      public AudioClip musicClipThree;
+     public AudioSource musicSource;
 
 
     private int livesValue = 3;
@@ -27,6 +31,9 @@ public class PlayerScript : MonoBehaviour
         
         winTextObject.SetActive(false);
         loseTextObject.SetActive(false);
+            musicSource.clip = musicClipThree;
+            musicSource.Play();
+            musicSource.loop = true;
     }
     
 
@@ -47,9 +54,13 @@ public class PlayerScript : MonoBehaviour
             {
                 transform.position = new Vector3(84.0f, 0.0f, 0.0f);
             }
-            if(scoreValue == 12)
+            if(scoreValue == 14)
             {
+                musicSource.clip = musicClipOne;
+                musicSource.Play();
+                musicSource.loop = false;
                 winTextObject.SetActive(true);
+                loseTextObject.SetActive(false);
             }
 
             score.text = "Coins: " + scoreValue.ToString();
@@ -61,7 +72,11 @@ public class PlayerScript : MonoBehaviour
             livesValue -= 1;
             if(livesValue == 0)
              {
+                musicSource.clip = musicClipTwo;
+                musicSource.Play();
+                musicSource.loop = false;
                loseTextObject.SetActive(true); 
+               winTextObject.SetActive(false);
              }
 
            lives.text = "Lives: " + livesValue.ToString();
